@@ -159,6 +159,10 @@ module.exports = msgHandler = async (client, message) => {
 	    } else if (dataBhs == 'ar') {
                 ttsAr.save('./media/tts/resAr.mp3', dataText, function () {
                     client.sendPtt(from, './media/tts/resAr.mp3', id)
+                }) 
+            } else if (dataBhs == 'pt') {
+                ttsPt.save('./media/tts/resPt.mp3', dataText, function () {
+                    client.sendPtt(from, './media/tts/resPt.mp3', id)
                 })
             } else {
                 client.reply(from, 'Selecione Também Um Idioma: [id] para indonésio, [en] para inglês, [jp] para japonês e [ar] para árabe', id)
@@ -243,7 +247,7 @@ module.exports = msgHandler = async (client, message) => {
             if (epbe.error) return client.reply(from, epbe.error, id)
             client.sendFileFromUrl(from, epbe.result, 'epbe.mp4', epbe.title, id)
             break
-        case '!creator':
+        case '!creador':
             client.sendContact(from, '5519996503657@c.us')
             break
         case '!ig':
@@ -280,7 +284,7 @@ module.exports = msgHandler = async (client, message) => {
             break
         case '!bv':
             if (!isGroupMsg) return client.reply(from, 'Este comando só pode ser usado em grupos!', id)
-            if (!isGroupAdmins) return client.reply(from, 'Este cokando só pode ser usado pornum Admin!', id)
+            if (!isGroupAdmins) return client.reply(from, 'Este cokando só pode ser usado por um Admin!', id)
             if (args.length === 1) return client.reply(from, 'Selecione ativar ou desativar!', id)
             if (args[1].toLowerCase() === 'ativar') {
                 welkom.push(chat.id)
@@ -440,6 +444,7 @@ module.exports = msgHandler = async (client, message) => {
             }
             break
         case '!link':
+            if (!isGroupAdmins) return client.reply(from, 'Este comando só pode ser usado por administradores de grupo', id)
             if (!isBotGroupAdmins) return client.reply(from, 'Este comando só pode ser usado quando o bot se torna admin', id)
             if (isGroupMsg) {
                 const inviteLink = await client.getGroupInviteLink(groupId);
@@ -532,6 +537,7 @@ module.exports = msgHandler = async (client, message) => {
             if (!isGroupMsg) return client.reply(from, 'Este recurso só pode ser usado em grupos ', id)
             if (!isGroupAdmins) return client.reply(from, 'Este comando só pode ser usado por administradores de grupo', id)
             if (!isBotGroupAdmins) return client.reply(from, 'Este comando só pode ser usado quando o bot se torna administrador', id)
+            if (!isOwner) return client.reply(from, 'Você Não Pode Banir Meu Criador, Seu Verme', id)
             if (mentionedJidList.length === 0) return client.reply(from, 'Para usar este comando, envie o comando !ban @membro', id)
             await client.sendText(from, `Perintah diterima, mengeluarkan:\n${mentionedJidList.join('\n')}`)
             for (let i = 0; i < mentionedJidList.length; i++) {
@@ -558,6 +564,7 @@ module.exports = msgHandler = async (client, message) => {
             if (!isGroupMsg) return client.reply(from, 'Este recurso só pode ser usado em grupos', id)
             if (!isGroupAdmins) return client.reply(from, 'Este recurso só pode ser usado por administradores de grupo', id)
             if (!isBotGroupAdmins) return client.reply(from, 'Este recurso só pode ser usado quando o bot é um administrador', id)
+            if (!isOwner) return client.reply(from, Tentando Remover Poder Dele?'', id)
             if (mentionedJidList.length === 0) return client.reply(from, 'Para usar este recurso, envie o comando !demote @admin', id)
             if (mentionedJidList.length >= 2) return client.reply(from, 'Desculpe, este comando só pode ser aplicado a 1 usuário.', id)
             if (!groupAdmins.includes(mentionedJidList[0])) return client.reply(from, 'Desculpe, o usuário não é um administrador.', id)
@@ -572,7 +579,6 @@ module.exports = msgHandler = async (client, message) => {
             const tGr = await client.getAllGroups()
             const minMem = 30
             const isLink = link.match(/(https:\/\/chat.whatsapp.com)/gi)
-            if (key !== 'lGjYt4zA5SQlTDx9z9Ca') return client.reply(from, 'A chave está errada! converse com o proprietário do bot para obter uma chave válida', id)
             const check = await client.inviteInfo(link)
             if (!isLink) return client.reply(from, 'É Um Link? 👊🤬', id)
             if (tGr.length > 15) return client.reply(from, 'Desculpe, o número de grupos é máximo!', id)
